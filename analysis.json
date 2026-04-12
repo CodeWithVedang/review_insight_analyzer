@@ -1,0 +1,40 @@
+{
+  "project_name": "Review Insight Analyzer",
+  "description": "A full-stack AI/ML web application designed to automatically fetch and synthesize product reviews into actionable insights using Natural Language Processing (NLP) and Machine Learning. Provides a responsive data visualization dashboard and an interactive AI sandbox to analyze sentiment.",
+  "workflow": {
+    "step_1_data_generation": "The 'ml/data_gen.py' script generates synthetic product review datasets covering categories like Electronics, Home Appliances, etc.",
+    "step_2_machine_learning": "The 'ml/train.py' pipeline parses raw text into numerical embeddings using Scikit-Learn TF-IDF Vectorizer, and trains a Logistic Regression model to output sentiment evaluation (Positive, Negative, Neutral).",
+    "step_3_backend_api": "The FastAPI backend ('backend/main.py') exposes endpoints that group product sentiments into categorical structures, extracts top loved interactions and critical pain points, and serves model predictions to the API.",
+    "step_4_frontend_dashboard": "The React/Vite frontend ('frontend/src/App.jsx') fetches insights from the backend and produces an interactive glassmorphic dashboard showcasing macro metrics, charts (Recharts), and an AI lab to test manual text sentiment."
+  },
+  "architecture_stack": {
+    "frontend": ["React.js", "Vite", "Tailwind CSS", "Framer Motion", "Recharts"],
+    "backend": ["Python", "FastAPI", "Uvicorn", "Pydantic"],
+    "machine_learning": ["Scikit-Learn", "Pandas", "NumPy"]
+  },
+  "project_hierarchy": {
+    "review_insight_analyzer/": {
+      "README.md": "Project documentation.",
+      "agentic_ai.md": "Execution framework rules.",
+      "requirements.txt": "Python dependencies.",
+      "backend/": {
+        "main.py": "FastAPI server and API routes logic connecting to ML endpoints."
+      },
+      "ml/": {
+        "data_gen.py": "Synthetic dataset generation script.",
+        "train.py": "ML model training and vectorizer creation script.",
+        "dataset.csv": "Generated raw data.",
+        "model.pkl": "Compiled Logistics Regression model.",
+        "vectorizer.pkl": "Compiled TF-IDF vectorizer."
+      },
+      "frontend/": {
+        "package.json": "Frontend dependencies and scripts.",
+        "tailwind.config.js": "Tailwind configuration for custom UI requirements.",
+        "src/": {
+          "index.css": "Core Tailwind CSS with Mesh Gradients.",
+          "App.jsx": "The main React component comprising the entire dashboard app."
+        }
+      }
+    }
+  }
+}

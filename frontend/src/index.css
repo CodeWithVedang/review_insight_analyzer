@@ -4,28 +4,60 @@
 
 @layer base {
   body {
-    @apply text-slate-100 antialiased selection:bg-brand-500 selection:text-white bg-slate-950;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    /* Beautiful subtle mesh gradient background */
-    background-image: 
-      radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-      radial-gradient(at 50% 0%, hsla(225,39%,30%,0.15) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(175,70%,30%,0.15) 0, transparent 50%);
-    background-attachment: fixed;
+    @apply bg-slate-950 text-slate-100 transition-colors duration-500 min-h-screen font-sans overflow-x-hidden;
+    background-image: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 80%, rgba(20, 184, 166, 0.05) 0%, transparent 40%);
   }
 }
 
-@layer utilities {
-  .glass-card {
-    @apply bg-slate-900/30 backdrop-blur-2xl border border-slate-700/50 hover:border-slate-600/50 hover:shadow-2xl hover:shadow-brand-500/5 transition-all duration-300 rounded-2xl relative overflow-hidden rounded-[20px] shadow-lg shadow-black/40;
-  }
-  
-  .glass-card::after {
-    content: "";
-    @apply absolute inset-0 rounded-[20px] pointer-events-none border border-white/5;
+@layer components {
+  .glass-panel {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-2xl;
   }
 
-  .glass-sidebar {
-    @apply bg-slate-950/50 backdrop-blur-xl border-r border-slate-800/80;
+  .neumorphic-button {
+    @apply bg-slate-800 rounded-xl shadow-[5px_5px_10px_#05080c,-5px_-5px_10px_#0f1624] text-slate-300 font-bold transition-all hover:shadow-[inset_5px_5px_10px_#05080c,inset_-5px_-5px_10px_#0f1624] active:scale-95;
   }
+
+  .glass-input {
+    @apply bg-white/5 border border-white/10 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/50 rounded-xl transition-all text-white placeholder-slate-400 p-4 focus:outline-none shadow-inner;
+  }
+}
+
+/* Custom Webkit scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-700/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-500/80;
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms, transform 400ms;
+}
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 400ms, transform 400ms;
 }

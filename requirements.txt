@@ -1,6 +1,10 @@
 fastapi
-uvicorn
+uvicorn[standard]
 scikit-learn
 pandas
 numpy
 pydantic
+textblob
+rake-nltk
+nltk
+python-multipart
