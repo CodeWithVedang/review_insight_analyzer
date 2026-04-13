@@ -4,3 +4,4 @@ __pycache__/
 *.csv
 node_modules/
 .DS_Store
+server_log.txt

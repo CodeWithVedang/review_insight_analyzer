@@ -3,7 +3,7 @@ import os
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from data_gen import generate_mock_data
+from ml.data_gen import generate_mock_data
 
 def get_sentiment(rating):
     if rating >= 4:
