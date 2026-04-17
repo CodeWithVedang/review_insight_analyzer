@@ -1,3 +1,7 @@
+google-generativeai
+fpdf2
+beautifulsoup4
+requests
 fastapi
 uvicorn[standard]
 scikit-learn
@@ -8,4 +12,4 @@ textblob
 rake-nltk
 nltk
 python-multipart
-requests
+python-dotenv

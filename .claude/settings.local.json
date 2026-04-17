@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python test_scraper.py)",
+      "Bash(ls -lh *.bat *.ps1)",
+      "Bash(awk '{print $9, \"-\", $5}')",
+      "Bash(rm -f run_backend.bat start.bat start_app.bat)",
+      "Bash(ls -1 *.bat)",
+      "Bash(ls -1 *.md)",
+      "Bash(rmdir /s /q node_modules)",
+      "Bash(del package-lock.json)",
+      "Bash(npm install:*)",
+      "Bash(python -c ':*)",
+      "Bash(grep -v \"===\\\\|LIVE SCRAPER\\\\|Fetching\\\\|SUCCESS\\\\|^$\")",
+      "Bash(cmd /c \"start run_scraper.bat\")"
+    ]
+  }
+}

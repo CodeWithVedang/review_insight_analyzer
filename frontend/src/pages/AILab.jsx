@@ -3,7 +3,7 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlaskConical, Send, Bot, Cpu, AlertTriangle, RefreshCw } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8001';
+const API_BASE = '/api_internal';
 
 const SAMPLES = [
   "The camera takes beautiful pictures during the day, but the battery drains incredibly fast causing major frustration.",

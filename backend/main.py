@@ -8,7 +8,7 @@ if _root not in sys.path:
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routes import reviews, insights
+from backend.routes import reviews, insights, advanced
 from backend.core.config import settings
 
 app = FastAPI(
@@ -27,6 +27,7 @@ app.add_middleware(
 
 app.include_router(reviews.router)
 app.include_router(insights.router)
+app.include_router(advanced.router)
 
 
 @app.get("/")

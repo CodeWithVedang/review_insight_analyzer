@@ -103,7 +103,7 @@ export default function Resources() {
           <div className="p-2 bg-slate-800 rounded-xl"><Code2 size={18} className="text-indigo-400" /></div>
           <h2 className="font-black text-white">API Reference</h2>
           <span className="ml-auto text-[10px] font-mono text-slate-500 border border-slate-700 px-2 py-0.5 rounded">
-            localhost:8001
+            127.0.0.1:8001
           </span>
         </div>
         <div className="divide-y divide-white/5">
@@ -119,7 +119,7 @@ export default function Resources() {
         </div>
         <div className="px-7 py-5 border-t border-white/5">
           <a
-            href="http://localhost:8001/docs"
+            href="/api_internal/docs"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 text-sm font-bold text-brand-400 hover:text-brand-300 transition-colors"

@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const API_BASE = 'http://localhost:8001';
+const API_BASE = '/api_internal';
 const COLORS = ['#10b981', '#f43f5e', '#64748b'];
 
 export default function Dashboard() {
@@ -18,14 +18,15 @@ export default function Dashboard() {
   const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [exporting, setExporting] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
       const [insightsRes, summaryRes] = await Promise.all([
-        axios.get(`${API_BASE}/insights/overall`, { timeout: 10000 }),
-        axios.get(`${API_BASE}/insights/summary`, { timeout: 10000 }),
+        axios.get(`${API_BASE}/insights/overall`, { timeout: 10000 }, { timeout: 120000 }),
+        axios.get(`${API_BASE}/insights/summary`, { timeout: 10000 }, { timeout: 120000 }),
       ]);
       setData(insightsRes.data);
       setSummary(summaryRes.data.ai_summary);
@@ -35,6 +36,27 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      const response = await axios({
+        url: `${API_BASE}/advanced/report`,
+        method: 'GET',
+        responseType: 'blob',
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Market_Intelligence_Report_${new Date().toISOString().split('T')[0]}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (e) {
+      alert("Failed to generate report. Ensure backend is active.");
+    }
+    setExporting(false);
   };
 
   useEffect(() => { fetchData(); }, []);
@@ -128,9 +150,19 @@ export default function Dashboard() {
             Aggregate sentiment analysis from {data.total_reviews.toLocaleString()} unique data points.
           </p>
         </div>
-        <div className="flex bg-slate-900 border border-white/5 rounded-2xl p-1 shadow-inner">
-          <button className="px-4 py-2 text-xs font-bold text-white bg-slate-800 rounded-xl shadow-lg">Real-time</button>
-          <button className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors">Historical</button>
+        <div className="flex gap-4 items-center">
+          <button 
+            onClick={handleExport}
+            disabled={exporting}
+            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2"
+          >
+            <TrendingUp size={14}/>
+            {exporting ? 'Generating PDF...' : 'Export Intelligence'}
+          </button>
+          <div className="flex bg-slate-900 border border-white/5 rounded-2xl p-1 shadow-inner">
+            <button className="px-4 py-2 text-xs font-bold text-white bg-slate-800 rounded-xl shadow-lg">Real-time</button>
+            <button className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors">Historical</button>
+          </div>
         </div>
       </header>
 

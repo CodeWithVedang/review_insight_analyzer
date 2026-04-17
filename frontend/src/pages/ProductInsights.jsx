@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Package, Star, Brain, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Search, Package, Star, Brain, AlertTriangle, RefreshCw, ImageOff } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8001';
+const API_BASE = '/api_internal';
 
-// No more hardcoded images, we use real product images from the data source
+// Return image only if it's a real, valid URL - otherwise return null
 function getProductImage(product) {
-  if (product.product_image && product.product_image !== '') return product.product_image;
-  // fallback — seed from product name string for visual consistency
-  const seed = encodeURIComponent(product.product_name.toLowerCase().replace(/\s+/g, ''));
-  return `https://picsum.photos/seed/${seed}/160/120`;
+  if (product.product_image && product.product_image.trim() !== '' &&
+      !product.product_image.includes('unsplash.com') &&
+      !product.product_image.includes('picsum.photos')) {
+    return product.product_image;
+  }
+  return null;
 }
 
 export default function ProductInsights() {
@@ -24,7 +26,7 @@ export default function ProductInsights() {
   const fetchReviews = () => {
     setLoading(true);
     setError(null);
-    axios.get(`${API_BASE}/reviews/`, { timeout: 15000 })
+    axios.get(`${API_BASE}/reviews/`, { timeout: 15000 }, { timeout: 120000 })
       .then(res => {
         setReviews(res.data);
         setFilteredReviews(res.data);
@@ -164,18 +166,28 @@ function ReviewListItem({ review, index }) {
 
       {/* Product Image */}
       <div className="flex-shrink-0 w-full md:w-40">
-        <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-lg group-hover:border-white/20 transition-colors">
-          <img
-            src={imgSrc}
-            alt={review.product_name}
-            className="w-full h-24 md:h-[110px] object-cover transition-transform duration-700 group-hover:scale-110"
-            onError={e => {
-              e.target.onerror = null;
-              e.target.src = `https://picsum.photos/seed/${review.id}/160/120`;
-            }}
-          />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+        <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-lg group-hover:border-white/20 transition-colors h-24 md:h-[110px] bg-slate-800">
+          {imgSrc ? (
+            <>
+              <img
+                src={imgSrc}
+                alt={review.product_name}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                onError={e => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+            </>
+          ) : (
+            /* Image Not Available State */
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+              <ImageOff size={28} className="text-slate-500 mb-1" />
+              <span className="text-[10px] font-bold text-slate-500 text-center px-2">Image not available</span>
+            </div>
+          )}
+
           {/* Rating badge */}
           <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-slate-900/90 backdrop-blur-sm px-2 py-0.5 rounded-lg border border-white/10">
             <Star size={10} fill="#eab308" stroke="#eab308" />

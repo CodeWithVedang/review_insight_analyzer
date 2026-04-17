@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   Sparkles, LayoutDashboard, PackageSearch, Rocket,
   UserCircle, Menu, Settings, HelpCircle, LogOut,
+  Globe, MessageSquare, BarChart3
 } from 'lucide-react';
 import Dashboard      from './pages/Dashboard';
 import AILab          from './pages/AILab';
@@ -11,6 +12,9 @@ import LandingPage    from './pages/LandingPage';
 import ProductInsights from './pages/ProductInsights';
 import SettingsPage   from './pages/Settings';
 import Resources      from './pages/Resources';
+import Scraper        from './pages/Scraper';
+import Chat           from './pages/Chat';
+import Compare        from './pages/Compare';
 
 function App() {
   return (
@@ -39,7 +43,7 @@ function AppContent() {
 
       <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? 'pl-72' : 'pl-20'}`}>
         {/* Top bar */}
-        <header className="h-20 border-b border-white/5 backdrop-blur-md bg-slate-950/50 sticky top-0 z-40 flex items-center justify-between px-8">
+        <header className="h-20 border-b border-white/5 backdrop-blur-md bg-slate-950/50 sticky top-0 z-40 flex items-center justify-between px-8 text-white">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(o => !o)}
@@ -98,6 +102,19 @@ function Sidebar({ isOpen, toggle }) {
         {isOpen && <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-3 ml-4">Main</p>}
         <SidebarLink to="/dashboard" icon={<LayoutDashboard size={20}/>} text="Dashboard"    active={active === '/dashboard'} collapsed={!isOpen} />
         <SidebarLink to="/insights"  icon={<PackageSearch  size={20}/>} text="Product Intel" active={active === '/insights'}  collapsed={!isOpen} />
+        <SidebarLink to="/compare"   icon={<BarChart3      size={20}/>} text="Benchmark"     active={active === '/compare'}   collapsed={!isOpen} />
+
+        {/* Intelligence */}
+        <div className="pt-6 pb-2">
+          {isOpen && (
+            <>
+              <div className="h-[1px] bg-white/5 mx-2 mb-4" />
+              <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest ml-4">Intelligence</p>
+            </>
+          )}
+        </div>
+        <SidebarLink to="/scraper"   icon={<Globe          size={20}/>} text="Live Scraper"  active={active === '/scraper'}  collapsed={!isOpen} />
+        <SidebarLink to="/chat"      icon={<MessageSquare size={20}/>} text="AI Agent"      active={active === '/chat'}     collapsed={!isOpen} />
         <SidebarLink to="/ai-lab"    icon={<Rocket         size={20}/>} text="AI Sandbox"    active={active === '/ai-lab'}    collapsed={!isOpen} />
 
         {/* Management */}
@@ -161,6 +178,9 @@ function PageTransitions() {
         <Route path="/ai-lab"    element={<AILab />} />
         <Route path="/settings"  element={<SettingsPage />} />
         <Route path="/help"      element={<Resources />} />
+        <Route path="/scraper"   element={<Scraper />} />
+        <Route path="/chat"      element={<Chat />} />
+        <Route path="/compare"   element={<Compare />} />
       </Routes>
     </AnimatePresence>
   );
